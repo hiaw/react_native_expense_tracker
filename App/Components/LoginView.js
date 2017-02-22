@@ -7,6 +7,7 @@ import * as firebase from 'firebase'
 import Spinner from 'react-native-loading-spinner-overlay'
 
 import spinnerStyle from './Styles/SpinnerStyle.js'
+import styles from './Styles/LoginView.style.js'
 
 @observer
 export default class LoginUserForm extends Component {
@@ -97,18 +98,3 @@ export default class LoginUserForm extends Component {
   }
 }
 
-const styles = {
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'lightblue'
-  },
-  textInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginHorizontal: 10,
-    paddingLeft: 10
-  }
-}

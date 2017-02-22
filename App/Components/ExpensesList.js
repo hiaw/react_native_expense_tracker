@@ -3,6 +3,8 @@ import { View, Text } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import * as firebase from 'firebase'
 
+import styles from './Styles/ExpensesList.style.js'
+
 export default class ExpensesList extends Component {
   render () {
     return (
@@ -22,11 +24,3 @@ export default class ExpensesList extends Component {
   }
 }
 
-const styles = {
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: 'lightblue',
-    marginTop: 65
-  }
-}
