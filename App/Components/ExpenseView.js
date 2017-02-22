@@ -1,24 +1,31 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import Moment from 'moment'
+import { ListItem } from 'react-native-elements'
 
 import styles from './Styles/ExpenseView.style.js'
 
 export default class ExpenseView extends Component {
   render () {
-    let { date, description, amount, comment } = this.props.expense
+    let { id, date, description, amount, comment } = this.props.expense
 
     let dateText = Moment(date).format('DD/MM/YY  HH:mm')
 
     return (
-      <View style={styles.container}>
-        <View style={styles.row}>
-          <Text style={styles.text}>{dateText}</Text>
-          <Text style={[styles.text, styles.bold]}>{description}</Text>
-          <Text style={styles.text}>{amount}</Text>
-        </View>
-        <Text style={styles.commentText} numberOfLines={2}>{comment}</Text>
-      </View>
+      <ListItem
+        key={id}
+        title={
+          <View style={styles.row}>
+            <Text style={styles.description}>{description}</Text>
+            <Text style={styles.amount}>$ {amount}</Text>
+          </View>
+              }
+        subtitle={
+          <View style={styles.subtitle}>
+            <Text style={styles.date}>{dateText}</Text>
+            <Text style={styles.comment}>{comment}</Text>
+          </View>
+                 } />
     )
   }
 }

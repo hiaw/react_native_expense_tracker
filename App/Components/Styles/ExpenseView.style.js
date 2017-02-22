@@ -1,25 +1,28 @@
 export default {
-  container: {
-    height: 65,
-    borderBottomWidth: 1,
-    marginBottom: 5
-  },
   row: {
-    flex: 1,
     flexDirection: 'row',
-    alignSelf: 'stretch',
     justifyContent: 'space-between',
-    marginVertical: 5
+    marginLeft: 10
   },
-  text: {
-    color: 'green',
-    marginHorizontal: 5
+  date: {
+    color: 'grey',
+    marginVertical: 2
   },
-  bold: {
+  amount: {
+    color: 'midnightblue',
+    fontSize: 18
+  },
+  subtitle: {
+    marginLeft: 10
+  },
+  description: {
+    color: 'darkslategrey',
+    fontSize: 18,
     fontWeight: 'bold'
   },
-  commentText: {
-    marginHorizontal: 5
+  comment: {
+    fontSize: 12,
+    color: 'darkgrey'
   }
 
 }
