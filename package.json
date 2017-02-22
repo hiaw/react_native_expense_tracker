@@ -13,6 +13,7 @@
 		"react": "~15.4.0",
 		"react-dom": "^15.4.2",
 		"react-native": "0.41.2",
+		"react-native-loading-spinner-overlay": "^0.4.1",
 		"react-native-router-flux": "^3.37.0"
 	},
 	"devDependencies": {

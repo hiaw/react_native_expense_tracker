@@ -3,13 +3,22 @@ import { View, TextInput, Button } from 'react-native'
 import { observable, computed } from 'mobx'
 import { observer } from 'mobx-react'
 import { Actions } from 'react-native-router-flux'
+import * as firebase from 'firebase'
+import Spinner from 'react-native-loading-spinner-overlay'
+
+import spinnerStyle from './Styles/SpinnerStyle.js'
+import styles from './Styles/LoginView.style.js'
 
 @observer
 export default class LoginUserForm extends Component {
+  @observable loading = false
   @observable registering = false
   @observable loginEmail = 'test@test.com'
   @observable loginPassword = '123456'
 
+  @computed get loadingText() {
+    return this.registering? 'Registering ...' : 'Logging in ...'
+  }
   @computed get buttonText() {
     return this.registering? 'Register' : 'Login'
   }
@@ -17,40 +26,61 @@ export default class LoginUserForm extends Component {
     return this.registering? 'Already Registered?' : 'Not yet registered?'
   }
 
-  submit () {
+  async submit () {
+    this.loading = true
     if (this.registering) {
-      this.props.registerUser(this.loginEmail, this.loginPassword)
-        .then(res => {
-          /* console.log(res)*/
-          if (res.data.createUser.token) {
-            let username = res.data.loginUser.user.username
-            Actions.channels({title: username})
-          }
-        })
+      try {
+        await firebase.auth()
+          .createUserWithEmailAndPassword(this.loginEmail, this.loginPassword);
+
+        this.loading = false
+        console.log("Account created");
+
+        Actions.expensesList()
+
+      } catch (error) {
+        this.loading = false
+        console.log(error.toString())
+      }
     } else {
-      this.props.loginUser(this.loginEmail, this.loginPassword)
-        .then(res => {
-          /* console.log(res)*/
-          if (res.data.loginUser.token) {
-            let username = res.data.loginUser.user.username
-            Actions.channels({title: username})
-          }
-        })
+      try {
+        await firebase.auth()
+          .signInWithEmailAndPassword(this.loginEmail, this.loginPassword);
+
+        this.loading = false
+
+        console.log("Signed In");
+
+        Actions.expensesList()
+
+      } catch (error) {
+        this.loading = false
+        console.log(error.toString())
+      }
     }
   }
 
   render () {
+    if (this.loading) {
+      return <Spinner visible textContent={this.loadingText}
+        textStyle={spinnerStyle} />
+    } else {
+      return this.renderMain()
+    }
+  }
+
+  renderMain() {
     return (
       <View style={styles.container}>
         <TextInput
           style={styles.textInput}
-          placeholder=' Email'
+          placeholder='Email'
           defaultValue={this.loginEmail}
           onChangeText={(value) => this.loginEmail = value}
         />
         <TextInput
           style={styles.textInput}
-          placeholder=' Password'
+          placeholder='Password'
           defaultValue={this.loginPassword}
           onChangeText={(value) => this.loginPassword = value}
           secureTextEntry
@@ -68,18 +98,3 @@ export default class LoginUserForm extends Component {
   }
 }
 
-const styles = {
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'lightblue'
-  },
-  textInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginHorizontal: 10,
-    paddingLeft: 10
-  }
-}
