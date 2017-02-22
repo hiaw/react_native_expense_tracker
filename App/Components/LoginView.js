@@ -26,7 +26,7 @@ export default class LoginUserForm extends Component {
 
         console.log("Account created");
 
-        // Navigate to the Home page, the user is auto logged in
+        Actions.expensesList()
 
       } catch (error) {
         console.log(error.toString())
@@ -38,7 +38,7 @@ export default class LoginUserForm extends Component {
 
         console.log("Signed In");
 
-        // Navigate to the Home page, the user is auto logged in
+        Actions.expensesList()
 
       } catch (error) {
         console.log(error.toString())

@@ -10,7 +10,7 @@ export default class NavigationRouter extends Component {
     return (
       <Router>
         <Scene key='login' component={LoginContainer} hideNavBar />
-        <Scene key='expensesList' component={ExpensesList} title='Expenses' initial />
+        <Scene key='expensesList' component={ExpensesList} title='Expenses' />
       </Router>
     )
   }
