@@ -7,12 +7,18 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"firebase": "^3.6.10",
+		"mobx": "^3.1.0",
+		"mobx-react": "^4.1.0",
 		"react": "~15.4.0",
-		"react-native": "0.41.2"
+		"react-dom": "^15.4.2",
+		"react-native": "0.41.2",
+		"react-native-router-flux": "^3.37.0"
 	},
 	"devDependencies": {
 		"babel-jest": "19.0.0",
 		"babel-preset-react-native": "1.9.1",
+		"babel-preset-react-native-stage-0": "^1.0.1",
 		"jest": "19.0.1",
 		"react-test-renderer": "~15.4.0"
 	},
