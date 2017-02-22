@@ -3,6 +3,7 @@ import { View, TextInput, Button } from 'react-native'
 import { observable, computed } from 'mobx'
 import { observer } from 'mobx-react'
 import { Actions } from 'react-native-router-flux'
+import * as firebase from 'firebase'
 
 @observer
 export default class LoginUserForm extends Component {
@@ -17,25 +18,31 @@ export default class LoginUserForm extends Component {
     return this.registering? 'Already Registered?' : 'Not yet registered?'
   }
 
-  submit () {
+  async submit () {
     if (this.registering) {
-      this.props.registerUser(this.loginEmail, this.loginPassword)
-        .then(res => {
-          /* console.log(res)*/
-          if (res.data.createUser.token) {
-            let username = res.data.loginUser.user.username
-            Actions.channels({title: username})
-          }
-        })
+      try {
+        await firebase.auth()
+          .createUserWithEmailAndPassword(this.loginEmail, this.loginPassword);
+
+        console.log("Account created");
+
+        // Navigate to the Home page, the user is auto logged in
+
+      } catch (error) {
+        console.log(error.toString())
+      }
     } else {
-      this.props.loginUser(this.loginEmail, this.loginPassword)
-        .then(res => {
-          /* console.log(res)*/
-          if (res.data.loginUser.token) {
-            let username = res.data.loginUser.user.username
-            Actions.channels({title: username})
-          }
-        })
+      try {
+        await firebase.auth()
+          .signInWithEmailAndPassword(this.loginEmail, this.loginPassword);
+
+        console.log("Signed In");
+
+        // Navigate to the Home page, the user is auto logged in
+
+      } catch (error) {
+        console.log(error.toString())
+      }
     }
   }
 
@@ -44,13 +51,13 @@ export default class LoginUserForm extends Component {
       <View style={styles.container}>
         <TextInput
           style={styles.textInput}
-          placeholder=' Email'
+          placeholder='Email'
           defaultValue={this.loginEmail}
           onChangeText={(value) => this.loginEmail = value}
         />
         <TextInput
           style={styles.textInput}
-          placeholder=' Password'
+          placeholder='Password'
           defaultValue={this.loginPassword}
           onChangeText={(value) => this.loginPassword = value}
           secureTextEntry
