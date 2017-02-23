@@ -27,8 +27,8 @@ export default class ExpenseView extends Component {
       this.amount = props.expense.amount
       this.comment = props.expense.comment
 
-      let userMobilePath = '/user/' + store.userDevice.userId +
-        '/expenses/' + props.expense.key
+      let userMobilePath = '/expenses/' + store.userDevice.userId +
+        '/' + props.expense.key
       this.expenseRef = firebase.database().ref(userMobilePath)
     }
   }

@@ -14,7 +14,7 @@ export default class ExpensesList extends Component {
   constructor () {
     super()
 
-    let userMobilePath = '/user/' + store.userDevice.userId + '/expenses'
+    let userMobilePath = '/expenses/' + store.userDevice.userId
     this.expensesRef = firebase.database().ref(userMobilePath)
 
     this.state = {
