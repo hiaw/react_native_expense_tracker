@@ -7,13 +7,13 @@ import styles from './Styles/ExpenseView.style.js'
 
 export default class ExpenseView extends Component {
   render () {
-    let { id, date, description, amount, comment } = this.props.expense
+    let { key, date, description, amount, comment } = this.props.expense
 
     let dateText = Moment(date).format('DD/MM/YY  HH:mm')
 
     return (
       <ListItem
-        key={id}
+        key={key}
         title={
           <View style={styles.row}>
             <Text style={styles.description}>{description}</Text>
