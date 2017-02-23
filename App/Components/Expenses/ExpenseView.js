@@ -6,8 +6,8 @@ import Moment from 'moment'
 import { FormLabel, FormInput } from 'react-native-elements'
 import * as firebase from 'firebase'
 
-import store from '../Model/MainStore.js'
-import styles from './Styles/ExpenseView.style.js'
+import store from '../../Model/MainStore.js'
+import styles from './ExpenseView.style.js'
 
 @observer
 export default class ExpenseView extends Component {
@@ -27,8 +27,8 @@ export default class ExpenseView extends Component {
       this.amount = props.expense.amount
       this.comment = props.expense.comment
 
-      let userMobilePath = '/user/' + store.userDevice.userId +
-        '/expenses/' + props.expense.key
+      let userMobilePath = '/expenses/' + store.userDevice.userId +
+        '/' + props.expense.key
       this.expenseRef = firebase.database().ref(userMobilePath)
     }
   }

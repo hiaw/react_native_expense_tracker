@@ -4,7 +4,7 @@ import Moment from 'moment'
 import { Actions } from 'react-native-router-flux'
 import { ListItem } from 'react-native-elements'
 
-import styles from './Styles/ExpenseRowView.style.js'
+import styles from './ExpenseRowView.style.js'
 
 export default class ExpenseRowView extends Component {
   render () {
