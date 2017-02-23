@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { View, Text, Button } from 'react-native'
-import { observable, computed } from 'mobx'
+import { Alert, View, Button } from 'react-native'
+import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 import Moment from 'moment'
 import { FormLabel, FormInput } from 'react-native-elements'
@@ -15,7 +15,7 @@ export default class ExpenseView extends Component {
   @observable description = ''
   @observable amount = ''
   @observable comment = ''
-
+  
   constructor (props) {
     super(props)
 
@@ -24,17 +24,37 @@ export default class ExpenseView extends Component {
     this.amount = props.expense.amount
     this.comment = props.expense.comment
 
-    let userMobilePath = '/user/' + store.userDevice.userId
-      + '/expenses/' + props.expense.key
-    this.expensesRef = firebase.database().ref(userMobilePath)
+    let userMobilePath = '/user/' + store.userDevice.userId +
+       '/expenses/' + props.expense.key
+    this.expenseRef = firebase.database().ref(userMobilePath)
   }
 
-  save() {
-    console.log('saving')
+  save () {
+    this.expenseRef.set({
+      date: Moment(this.date).valueOf(),
+      description: this.description,
+      amount: this.amount,
+      comment: this.comment
+    })
   }
 
-  delete() {
-    console.log('deleting')
+  delete () {
+    Alert.alert(
+      'Delete this expense',
+      'Are you sure?',
+      [
+        {text: 'Yes', onPress: () => { this.expenseRef.remove() }},
+        {text: 'Cancel', onPress: () => {}, style: 'cancel'}
+      ]
+    )
+  }
+
+  changeDate(date) {
+    console.log(date)
+  }
+
+  changeTime(time) {
+    console.log(time)
   }
 
   render () {
@@ -44,19 +64,24 @@ export default class ExpenseView extends Component {
     return (
       <View style={styles.container}>
         <FormLabel>Date</FormLabel>
-        <FormInput value={dateText}/>
+        <FormInput value={dateText}
+          onChangeText={(t) => {this.changeDate(t)}}/>
 
         <FormLabel>Time</FormLabel>
-        <FormInput value={timeText}/>
+        <FormInput value={timeText}
+          onChangeText={(t) => {this.changeTime(t)}}/>
 
         <FormLabel>Amount</FormLabel>
-        <FormInput value={this.amount}/>
+        <FormInput value={this.amount}
+          onChangeText={(t) => {this.amount = t}}/>
 
         <FormLabel>Description</FormLabel>
-        <FormInput value={this.description}/>
+        <FormInput value={this.description}
+          onChangeText={(t) => {this.description= t}}/>
 
         <FormLabel>Comment</FormLabel>
-        <FormInput value={this.comment}/>
+        <FormInput value={this.comment}
+          onChangeText={(t) => {this.comment= t}}/>
 
         <Button title='Save'
           onPress={() => this.save()} />

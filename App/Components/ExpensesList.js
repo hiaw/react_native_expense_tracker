@@ -24,10 +24,10 @@ export default class ExpensesList extends Component {
   }
 
   componentDidMount () {
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows([generateExpense()])
-    })
-    /* this.listenForExpenses(this.expensesRef) */
+    /* this.setState({
+     *   dataSource: this.state.dataSource.cloneWithRows([generateExpense()])
+     * }) */
+    this.listenForExpenses(this.expensesRef)
   }
 
   listenForExpenses (expensesRef) {
