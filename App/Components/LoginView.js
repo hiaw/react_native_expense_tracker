@@ -9,6 +9,8 @@ import Spinner from 'react-native-loading-spinner-overlay'
 import spinnerStyle from './Styles/SpinnerStyle.js'
 import styles from './Styles/LoginView.style.js'
 
+import store from '../Model/MainStore.js'
+
 @observer
 export default class LoginUserForm extends Component {
   @observable loading = false
@@ -26,40 +28,42 @@ export default class LoginUserForm extends Component {
     return this.registering? 'Already Registered?' : 'Not yet registered?'
   }
 
-  async submit () {
+  submit () {
     this.loading = true
     if (this.registering) {
-      try {
-        await firebase.auth()
-          .createUserWithEmailAndPassword(this.loginEmail, this.loginPassword);
-
-        this.loading = false
-        console.log("Account created");
-
-        Actions.expensesList()
-
-      } catch (error) {
-        this.loading = false
-        console.log(error.toString())
-      }
+      firebase.auth()
+        .createUserWithEmailAndPassword(this.loginEmail, this.loginPassword)
+        .then(res => {
+          store.userDevice.userId = res.uid
+          this.loading = false
+          Actions.expensesList()
+        })
+        .catch(error =>{
+          this.loading = false
+          console.log(error.toString())
+        })
     } else {
-      try {
-        await firebase.auth()
-          .signInWithEmailAndPassword(this.loginEmail, this.loginPassword);
-
-        this.loading = false
-
-        console.log("Signed In");
-
-        Actions.expensesList()
-
-      } catch (error) {
-        this.loading = false
-        console.log(error.toString())
-      }
+      firebase.auth()
+        .signInWithEmailAndPassword(this.loginEmail, this.loginPassword)
+        .then(res => {
+          store.userDevice.userId = res.uid
+          this.loading = false
+          Actions.expensesList()
+        })
+        .catch(error => {
+          this.loading = false
+          console.log(error.toString())
+        })
     }
   }
 
+  /* logout() {
+   *   firebase.auth().signOut()
+   *     .catch(error => {
+   *       console.log(error);
+   *     })
+   * }
+   */
   render () {
     if (this.loading) {
       return <Spinner visible textContent={this.loadingText}
