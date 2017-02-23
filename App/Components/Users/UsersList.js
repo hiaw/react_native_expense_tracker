@@ -36,6 +36,7 @@ export default class UsersList extends Component {
       var users = []
       snap.forEach((child) => {
         users.push({
+          email: child.val().email,
           key: child.key
         })
       })
@@ -47,7 +48,7 @@ export default class UsersList extends Component {
   }
 
   _renderUser (user) {
-    return <ListItem title={user.key} />
+    return <ListItem title={user.email} />
   }
 
   render () {

@@ -14,10 +14,6 @@ export default class LoginUserForm extends Component {
           title='Manager'
         />
         <Button
-          onPress={() => this.props.setEmailPassword('test@test.com', '123456')}
-          title='Test User'
-        />
-        <Button
           onPress={() => this.props.setEmailPassword('user1@test.com', '123456')}
           title='User 1'
         />
