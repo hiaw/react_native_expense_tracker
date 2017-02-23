@@ -50,7 +50,7 @@ export default class LoginUserForm extends Component {
         .then(res => {
           store.userDevice.userId = res.uid
           this.loading = false
-          Actions.expensesList()
+          Actions.usersList()
         })
         .catch(error => {
           this.loading = false
@@ -85,7 +85,7 @@ export default class LoginUserForm extends Component {
     return (
       <View style={styles.container}>
         <SelectUsersButton setEmailPassword={this.setEmailPassword.bind(this)} />
-        
+
         <TextInput
           style={styles.textInput}
           placeholder='Email'

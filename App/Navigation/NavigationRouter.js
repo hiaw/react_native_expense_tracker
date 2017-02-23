@@ -5,6 +5,7 @@ import { Scene, Router } from 'react-native-router-flux'
 import LoginContainer from '../Components/Login/LoginView.js'
 import ExpensesList from '../Components/Expenses/ExpensesList.js'
 import ExpenseView from '../Components/Expenses/ExpenseView.js'
+import UsersList from '../Components/Users/UsersList.js'
 
 export default class NavigationRouter extends Component {
   render () {
@@ -13,6 +14,7 @@ export default class NavigationRouter extends Component {
         <Scene key='login' component={LoginContainer} hideNavBar />
         <Scene key='expensesList' component={ExpensesList} title='Expenses' />
         <Scene key='expense' component={ExpenseView} title='Expense' />
+        <Scene key='usersList' component={UsersList} title='Users' />
       </Router>
     )
   }
