@@ -11,7 +11,8 @@ import styles from './Styles/ExpenseView.style.js'
 
 @observer
 export default class ExpenseView extends Component {
-  @observable date = ''
+  @observable editing = false
+  @observable date = new Date()
   @observable description = ''
   @observable amount = ''
   @observable comment = ''
@@ -19,14 +20,28 @@ export default class ExpenseView extends Component {
   constructor (props) {
     super(props)
 
-    this.date = Moment(props.expense.date).toDate()
-    this.description = props.expense.description
-    this.amount = props.expense.amount
-    this.comment = props.expense.comment
+    if (props.expense) {
+      this.editing = true
+      this.date = Moment(props.expense.date).toDate()
+      this.description = props.expense.description
+      this.amount = props.expense.amount
+      this.comment = props.expense.comment
 
-    let userMobilePath = '/user/' + store.userDevice.userId +
-       '/expenses/' + props.expense.key
-    this.expenseRef = firebase.database().ref(userMobilePath)
+      let userMobilePath = '/user/' + store.userDevice.userId +
+        '/expenses/' + props.expense.key
+      this.expenseRef = firebase.database().ref(userMobilePath)
+    }
+  }
+
+  add() {
+    let userMobilePath = '/user/' + store.userDevice.userId + '/expenses'
+    let expenseRef = firebase.database().ref(userMobilePath).push()
+    expenseRef.set({
+      date: Moment(this.date).valueOf(),
+      description: this.description,
+      amount: this.amount,
+      comment: this.comment
+    })
   }
 
   save () {
@@ -78,6 +93,22 @@ export default class ExpenseView extends Component {
           numberOfLines={4}
           onChangeText={(t) => {this.comment= t}}/>
 
+        { this.editing? this.renderEditButtons(): this.renderAddButton()}
+
+      </View>
+    )
+  }
+
+  renderAddButton() {
+    return (
+      <Button title='Add'
+        onPress={() => this.add()} />
+    )
+  }
+
+  renderEditButtons() {
+    return (
+      <View>
         <Button title='Save'
           onPress={() => this.save()} />
         <Button title='Delete'

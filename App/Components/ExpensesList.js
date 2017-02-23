@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, ListView, Text, Button } from 'react-native'
 import * as firebase from 'firebase'
+import { Actions } from 'react-native-router-flux'
 
 import { generateExpense } from './ExpenseGenerator.js'
 import ExpenseRowView from './ExpenseRowView.js'
@@ -50,6 +51,10 @@ export default class ExpensesList extends Component {
     })
   }
 
+  addExpense () {
+    Actions.expense()
+  }
+
   generateExpensesForUser () {
     let ref = this.expensesRef.push()
     ref.set(generateExpense())
@@ -68,6 +73,8 @@ export default class ExpensesList extends Component {
           enableEmptySections
           renderRow={(expense) => this._renderExpense(expense)} />
 
+        <Button onPress={() => this.addExpense()}
+          title='Add Expense' />
         <Button onPress={() => this.generateExpensesForUser()}
           title='Generate Expenses For User' />
       </View>
