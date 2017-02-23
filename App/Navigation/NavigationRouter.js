@@ -3,8 +3,8 @@ import { Scene, Router } from 'react-native-router-flux'
 
 // Containers
 import LoginContainer from '../Components/Login/LoginView.js'
-import ExpensesList from '../Components/ExpensesList.js'
-import ExpenseView from '../Components/ExpenseView.js'
+import ExpensesList from '../Components/Expenses/ExpensesList.js'
+import ExpenseView from '../Components/Expenses/ExpenseView.js'
 
 export default class NavigationRouter extends Component {
   render () {

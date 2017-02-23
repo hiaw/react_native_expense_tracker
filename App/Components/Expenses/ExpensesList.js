@@ -6,8 +6,8 @@ import { Actions } from 'react-native-router-flux'
 import { generateExpense } from './ExpenseGenerator.js'
 import ExpenseRowView from './ExpenseRowView.js'
 
-import styles from './Styles/ExpensesList.style.js'
-import store from '../Model/MainStore.js'
+import styles from './ExpensesList.style.js'
+import store from '../../Model/MainStore.js'
 
 export default class ExpensesList extends Component {
 
