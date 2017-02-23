@@ -6,17 +6,19 @@ import { Actions } from 'react-native-router-flux'
 import * as firebase from 'firebase'
 import Spinner from 'react-native-loading-spinner-overlay'
 
-import spinnerStyle from './Styles/SpinnerStyle.js'
-import styles from './Styles/LoginView.style.js'
+import spinnerStyle from '../Styles/SpinnerStyle.js'
+import styles from './LoginView.style.js'
 
-import store from '../Model/MainStore.js'
+import SelectUsersButton from './SelectUsersButton.js'
+
+import store from '../../Model/MainStore.js'
 
 @observer
 export default class LoginUserForm extends Component {
   @observable loading = false
   @observable registering = false
-  @observable loginEmail = 'test@test.com'
-  @observable loginPassword = '123456'
+  @observable loginEmail = ''
+  @observable loginPassword = ''
 
   @computed get loadingText() {
     return this.registering? 'Registering ...' : 'Logging in ...'
@@ -38,7 +40,7 @@ export default class LoginUserForm extends Component {
           this.loading = false
           Actions.expensesList()
         })
-        .catch(error =>{
+        .catch(error => {
           this.loading = false
           console.log(error.toString())
         })
@@ -64,6 +66,12 @@ export default class LoginUserForm extends Component {
    *     })
    * }
    */
+  setEmailPassword (email, password) {
+    this.loginEmail = email
+    this.loginPassword = password
+    this.registering = false
+  }
+
   render () {
     if (this.loading) {
       return <Spinner visible textContent={this.loadingText}
@@ -73,20 +81,22 @@ export default class LoginUserForm extends Component {
     }
   }
 
-  renderMain() {
+  renderMain () {
     return (
       <View style={styles.container}>
+        <SelectUsersButton setEmailPassword={this.setEmailPassword.bind(this)} />
+        
         <TextInput
           style={styles.textInput}
           placeholder='Email'
           defaultValue={this.loginEmail}
-          onChangeText={(value) => this.loginEmail = value}
+          onChangeText={(value) => { this.loginEmail = value }}
         />
         <TextInput
           style={styles.textInput}
           placeholder='Password'
           defaultValue={this.loginPassword}
-          onChangeText={(value) => this.loginPassword = value}
+          onChangeText={(value) => { this.loginPassword = value }}
           secureTextEntry
         />
         <Button
@@ -94,7 +104,7 @@ export default class LoginUserForm extends Component {
           title={this.buttonText}
         />
         <Button
-          onPress={() => this.registering = !this.registering}
+          onPress={() => { this.registering = !this.registering }}
           title={this.alternateButtonText}
         />
       </View>
