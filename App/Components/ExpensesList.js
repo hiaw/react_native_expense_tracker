@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { View, ListView, Text, Button } from 'react-native'
-import { Actions } from 'react-native-router-flux'
 import * as firebase from 'firebase'
 
 import { generateExpense } from './ExpenseGenerator.js'
-import ExpenseView from './ExpenseView.js'
+import ExpenseRowView from './ExpenseRowView.js'
 
 import styles from './Styles/ExpensesList.style.js'
 import store from '../Model/MainStore.js'
@@ -55,7 +54,7 @@ export default class ExpensesList extends Component {
 
   _renderExpense (expense) {
     return (
-      <ExpenseView expense={expense} />
+      <ExpenseRowView expense={expense} />
     )
   }
 
