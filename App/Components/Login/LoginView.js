@@ -10,6 +10,7 @@ import spinnerStyle from '../Styles/SpinnerStyle.js'
 import styles from './LoginView.style.js'
 
 import SelectUsersButton from './SelectUsersButton.js'
+import { registerUser } from './RegisterUser.js'
 
 import store from '../../Model/MainStore.js'
 
@@ -33,18 +34,8 @@ export default class LoginUserForm extends Component {
   submit () {
     this.loading = true
     if (this.registering) {
-      firebase.auth()
-        .createUserWithEmailAndPassword(this.loginEmail, this.loginPassword)
-        .then(res => {
-          store.userDevice.userId = res.uid
-          this.loading = false
-          Actions.expensesList()
-        })
-        .catch(error => {
-          this.loading = false
-          console.log(error.toString())
-        })
-    } else {
+      registerUser(this.loginEmail, this.loginPassword, (t) => { this.loading = t })
+     } else{
       firebase.auth()
         .signInWithEmailAndPassword(this.loginEmail, this.loginPassword)
         .then(res => {

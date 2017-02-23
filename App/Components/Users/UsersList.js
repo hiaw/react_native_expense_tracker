@@ -13,7 +13,7 @@ export default class UsersList extends Component {
 
     console.log('constructing users list')
 
-    let userMobilePath = '/user'
+    let userMobilePath = '/users'
     this.usersRef = firebase.database().ref(userMobilePath)
 
     this.state = {
