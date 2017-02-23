@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, View, Button } from 'react-native'
+import { Alert, View, Button, DatePickerIOS } from 'react-native'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 import Moment from 'moment'
@@ -15,11 +15,11 @@ export default class ExpenseView extends Component {
   @observable description = ''
   @observable amount = ''
   @observable comment = ''
-  
+
   constructor (props) {
     super(props)
 
-    this.date = props.expense.date
+    this.date = Moment(props.expense.date).toDate()
     this.description = props.expense.description
     this.amount = props.expense.amount
     this.comment = props.expense.comment
@@ -49,14 +49,6 @@ export default class ExpenseView extends Component {
     )
   }
 
-  changeDate(date) {
-    console.log(date)
-  }
-
-  changeTime(time) {
-    console.log(time)
-  }
-
   render () {
     let dateText = Moment(this.date).format('DD/MM/YY')
     let timeText = Moment(this.date).format('HH:mm')
@@ -64,15 +56,15 @@ export default class ExpenseView extends Component {
     return (
       <View style={styles.container}>
         <FormLabel>Date</FormLabel>
-        <FormInput value={dateText}
-          onChangeText={(t) => {this.changeDate(t)}}/>
-
-        <FormLabel>Time</FormLabel>
-        <FormInput value={timeText}
-          onChangeText={(t) => {this.changeTime(t)}}/>
+        <DatePickerIOS
+          date={this.date}
+          mode="datetime"
+          onDateChange={(t) => { this.date = t }}
+        />
 
         <FormLabel>Amount</FormLabel>
         <FormInput value={this.amount}
+          keyboardType='numeric'
           onChangeText={(t) => {this.amount = t}}/>
 
         <FormLabel>Description</FormLabel>
@@ -81,6 +73,9 @@ export default class ExpenseView extends Component {
 
         <FormLabel>Comment</FormLabel>
         <FormInput value={this.comment}
+          inputStyle={{height: 100}}
+          multiline={true}
+          numberOfLines={4}
           onChangeText={(t) => {this.comment= t}}/>
 
         <Button title='Save'
