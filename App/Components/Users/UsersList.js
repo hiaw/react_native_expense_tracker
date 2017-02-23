@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { View, ListView, Text, Button } from 'react-native'
 import * as firebase from 'firebase'
 import { Actions } from 'react-native-router-flux'
+import { ListItem } from 'react-native-elements'
 
-/* import styles from './UsersList.style.js' */
+import styles from './UsersList.style.js'
 
 export default class UsersList extends Component {
 
@@ -46,12 +47,12 @@ export default class UsersList extends Component {
   }
 
   _renderUser (user) {
-    return <Text>{user.key}</Text>
+    return <ListItem title={user.key} />
   }
 
   render () {
     return (
-      <View>
+      <View style={styles.container}>
         <ListView dataSource={this.state.dataSource}
           enableEmptySections
           renderRow={(user) => this._renderUser(user)} />
