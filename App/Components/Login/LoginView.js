@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, TextInput, Button } from 'react-native'
+import { Alert, View, TextInput, Button } from 'react-native'
 import { observable, computed } from 'mobx'
 import { observer } from 'mobx-react'
 import { Actions } from 'react-native-router-flux'
@@ -10,7 +10,7 @@ import spinnerStyle from '../Styles/SpinnerStyle.js'
 import styles from './LoginView.style.js'
 
 import SelectUsersButton from './SelectUsersButton.js'
-import { registerUser } from './RegisterUser.js'
+/* import { registerUser } from './RegisterUser.js'*/
 
 import store from '../../Model/MainStore.js'
 
@@ -31,10 +31,35 @@ export default class LoginUserForm extends Component {
     return this.registering? 'Already Registered?' : 'Not yet registered?'
   }
 
+  registerUser(email, password) {
+    var userData = {email, password};
+
+    this.props.app.service('users').create(userData).then((result) => {
+      this.props.app.authenticate({
+        type: 'local',
+        email: email,
+        password: password
+      }).then(response => {
+        this.setState({ loading: false });
+        // re-route to main authorized chat   component
+        Actions.expense();
+      }).catch(error => {
+        console.log(error);
+        Alert.alert('Error', 'Please enter a valid email or password.');
+        this.setState({ loading: false });
+      });
+    }).catch((err) => {
+      console.log('err');
+      console.log(err);
+      self.setState({loading: false});
+      Alert.alert('Error', err.message);
+    });
+  }
+
   submit () {
     this.loading = true
     if (this.registering) {
-      registerUser(this.loginEmail, this.loginPassword, (t) => { this.loading = t })
+      this.registerUser(this.loginEmail, this.loginPassword)
      } else{
       firebase.auth()
         .signInWithEmailAndPassword(this.loginEmail, this.loginPassword)

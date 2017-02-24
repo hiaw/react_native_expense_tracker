@@ -8,6 +8,10 @@
 	},
 	"dependencies": {
 		"faker": "^4.1.0",
+		"feathers": "^2.0.3",
+		"feathers-authentication": "^0.7.12",
+		"feathers-hooks": "^1.7.1",
+		"feathers-socketio": "^1.4.2",
 		"firebase": "^3.6.10",
 		"mobx": "^3.1.0",
 		"mobx-react": "^4.1.0",
@@ -17,7 +21,8 @@
 		"react-native-elements": "^0.9.7",
 		"react-native-loading-spinner-overlay": "^0.4.1",
 		"react-native-router-flux": "^3.37.0",
-		"react-native-vector-icons": "^4.0.0"
+		"react-native-vector-icons": "^4.0.0",
+		"socket.io-client": "^1.7.3"
 	},
 	"devDependencies": {
 		"babel-jest": "19.0.0",
