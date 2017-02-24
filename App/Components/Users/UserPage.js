@@ -14,7 +14,7 @@ export default class UserView extends Component {
   @observable email = ''
   @observable password = ''
   @observable role = ''
-  
+
   constructor (props) {
     super(props)
 
@@ -29,7 +29,7 @@ export default class UserView extends Component {
 
   add () {
     this.userService.create({
-      email: this.amount,
+      email: this.email,
       password: this.password,
       role: this.role
     }).then((res) => {
@@ -87,6 +87,7 @@ export default class UserView extends Component {
       <View>
         <FormLabel>Password</FormLabel>
         <FormInput value={this.password}
+          secureTextEntry
           onChangeText={(t) => { this.password = t }} />
 
         <Button title='Add'

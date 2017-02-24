@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, ListView } from 'react-native'
+import { View, ListView, Button } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import { ListItem } from 'react-native-elements'
 
@@ -27,6 +27,7 @@ export default class UsersList extends Component {
   }
 
   _renderUser (user) {
+    console.log(user)
     return <ListItem title={user.email}
       onPress={() => { Actions.user({user}) }} />
   }
@@ -37,6 +38,9 @@ export default class UsersList extends Component {
         <ListView dataSource={this.state.dataSource}
           enableEmptySections
           renderRow={(user) => this._renderUser(user)} />
+
+        <Button onPress={() => { Actions.user() }}
+          title='Add User' />
       </View>
     )
   }
