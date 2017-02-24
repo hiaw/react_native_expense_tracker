@@ -6,6 +6,7 @@ import LoginContainer from '../Components/Login/LoginView.js'
 import ExpensesList from '../Components/Expenses/ExpensesList.js'
 import ExpenseView from '../Components/Expenses/ExpenseView.js'
 import UsersList from '../Components/Users/UsersList.js'
+import UserPage from '../Components/Users/UserPage.js'
 
 export default class NavigationRouter extends Component {
   render () {
@@ -15,6 +16,7 @@ export default class NavigationRouter extends Component {
         <Scene app={this.props.app} key='expensesList' component={ExpensesList} title='Expenses' hideNavBar={false} />
         <Scene app={this.props.app} key='expense' component={ExpenseView} title='Expense' hideNavBar={false} />
         <Scene app={this.props.app} key='usersList' component={UsersList} title='Users' hideNavBar={false} />
+        <Scene app={this.props.app} key='user' component={UserPage} title='User' hideNavBar={false} />
       </Router>
     )
   }
