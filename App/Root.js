@@ -7,6 +7,7 @@ import feathers from 'feathers/client'
 import hooks from 'feathers-hooks'
 import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication/client'
+import _ from 'lodash'
 
 import io from 'socket.io-client'
 
@@ -28,8 +29,19 @@ export default class Root extends Component {
 
   componentDidMount () {
     this.app.io.on('connect', () => {
-      this.app.authenticate().then(() => {
-        Actions.usersList()
+      this.app.authenticate().then((res) => {
+        let roles = res.data.roles
+        if (roles) {
+          if (roles.indexOf('admin') >= 0) {
+            Actions.userAndExpenseList({role: 'admin', title: 'Admin'})
+          } else if (roles.indexOf('manager') >= 0) {
+            Actions.userAndExpenseList({role: 'manager', title: 'Manager'})
+          } else {
+            Actions.expensesList()
+          }
+        } else {
+          Actions.expensesList()
+        }
       }).catch(error => {
         console.log(error)
         Actions.login()
