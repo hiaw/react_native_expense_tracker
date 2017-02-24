@@ -10,6 +10,8 @@ import styles from './LoginView.style.js'
 
 import SelectUsersButton from './SelectUsersButton.js'
 
+import store from '../../Model/MainStore.js'
+
 @observer
 export default class LoginUserForm extends Component {
   @observable loading = false
@@ -44,7 +46,8 @@ export default class LoginUserForm extends Component {
       type: 'local',
       email: email,
       password: password
-    }).then(response => {
+    }).then(res => {
+      store.userDevice.userId = res.data._id
       this.loading = false
       Actions.expensesList()
     }).catch(error => {
