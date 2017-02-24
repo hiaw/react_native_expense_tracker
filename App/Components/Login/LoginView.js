@@ -46,7 +46,7 @@ export default class LoginUserForm extends Component {
       password: password
     }).then(response => {
       this.loading = false
-      Actions.expense()
+      Actions.expensesList()
     }).catch(error => {
       console.log(error)
       this.loading = false

@@ -27,7 +27,6 @@ export default class UsersList extends Component {
   }
 
   _renderUser (user) {
-    console.log(user)
     return <ListItem title={user.email}
       onPress={() => { Actions.user({user}) }} />
   }
