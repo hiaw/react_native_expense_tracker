@@ -28,25 +28,17 @@ export default class Root extends Component {
   }
 
   componentDidMount () {
-    this.setState({ loading: true })
-
     this.app.io.on('connect', () => {
-      this.setState({ connected: true })
-
       this.app.authenticate().then(() => {
-        this.setState({ loading: false })
         Actions.expense()
       }).catch(error => {
-        this.setState({ loading: false })
-        console.log('not logged in')
         console.log(error)
         Actions.login()
       })
     })
 
     this.app.io.on('disconnect', () => {
-      this.setState({ connected: false })
-      Actions.offline()
+      Actions.login()
     })
   }
 
