@@ -1,24 +1,49 @@
 import React, { Component } from 'react'
+import { AsyncStorage } from 'react-native'
 import NavigationRouter from './Navigation/NavigationRouter.js'
-import * as firebase from 'firebase'
+import { Actions } from 'react-native-router-flux'
+
+import feathers from 'feathers/client'
+import hooks from 'feathers-hooks'
+import socketio from 'feathers-socketio/client'
+import authentication from 'feathers-authentication/client'
+
+import io from 'socket.io-client'
 
 export default class Root extends Component {
   constructor () {
     super()
 
-    let config = {
-      apiKey: 'AIzaSyB6c11heoJLaykfX9MJe5GnEY1oN3j4ASs',
-      authDomain: 'toptal-dc-expense-tracker.firebaseapp.com',
-      databaseURL: 'https://toptal-dc-expense-tracker.firebaseio.com',
-      storageBucket: 'toptal-dc-expense-tracker.appspot.com',
-      messagingSenderId: '265807090139'
-    }
-    firebase.initializeApp(config)
+    const options = {transports: ['websocket'], forceNew: true}
+    const socket = io('http://localhost:3030', options)
+
+    this.app = feathers()
+      .configure(socketio(socket))
+      .configure(hooks())
+      // Use AsyncStorage to store our login token
+      .configure(authentication({
+        storage: AsyncStorage
+      }))
+  }
+
+  componentDidMount () {
+    this.app.io.on('connect', () => {
+      this.app.authenticate().then(() => {
+        Actions.usersList()
+      }).catch(error => {
+        console.log(error)
+        Actions.login()
+      })
+    })
+
+    this.app.io.on('disconnect', () => {
+      Actions.login()
+    })
   }
 
   render () {
     return (
-      <NavigationRouter />
+      <NavigationRouter app={this.app} />
     )
   }
 }

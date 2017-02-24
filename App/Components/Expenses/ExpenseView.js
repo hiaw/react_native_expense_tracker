@@ -4,7 +4,7 @@ import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 import Moment from 'moment'
 import { FormLabel, FormInput } from 'react-native-elements'
-import * as firebase from 'firebase'
+import { Actions } from 'react-native-router-flux'
 
 import store from '../../Model/MainStore.js'
 import styles from './ExpenseView.style.js'
@@ -20,36 +20,36 @@ export default class ExpenseView extends Component {
   constructor (props) {
     super(props)
 
+    this.expenseService = props.app.service('expenses')
+
     if (props.expense) {
       this.editing = true
       this.date = Moment(props.expense.date).toDate()
       this.description = props.expense.description
       this.amount = props.expense.amount
       this.comment = props.expense.comment
-
-      let userMobilePath = '/expenses/' + store.userDevice.userId +
-        '/' + props.expense.key
-      this.expenseRef = firebase.database().ref(userMobilePath)
     }
   }
 
   add() {
-    let userMobilePath = '/user/' + store.userDevice.userId + '/expenses'
-    let expenseRef = firebase.database().ref(userMobilePath).push()
-    expenseRef.set({
+    this.expenseService.create({
       date: Moment(this.date).valueOf(),
       description: this.description,
       amount: this.amount,
       comment: this.comment
+    }).then((res) => {
+      Actions.pop()
     })
   }
 
   save () {
-    this.expenseRef.set({
+    this.expenseService.update(this.props.expense._id, {
       date: Moment(this.date).valueOf(),
       description: this.description,
       amount: this.amount,
       comment: this.comment
+    }).then((res) => {
+      Actions.pop()
     })
   }
 
@@ -58,7 +58,12 @@ export default class ExpenseView extends Component {
       'Delete this expense',
       'Are you sure?',
       [
-        {text: 'Yes', onPress: () => { this.expenseRef.remove() }},
+        {text: 'Yes', onPress: () => {
+          this.expenseService.remove(this.props.expense._id)
+            .then((res) => {
+              Actions.pop()
+            })
+        }},
         {text: 'Cancel', onPress: () => {}, style: 'cancel'}
       ]
     )

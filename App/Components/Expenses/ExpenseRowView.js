@@ -8,14 +8,14 @@ import styles from './ExpenseRowView.style.js'
 
 export default class ExpenseRowView extends Component {
   render () {
-    let { key, date, description, amount, comment } = this.props.expense
+    let { _id, date, description, amount, comment } = this.props.expense
 
     let dateText = Moment(date).format('DD/MM/YY  HH:mm')
 
     return (
       <ListItem
         onPress={() => { Actions.expense({expense: this.props.expense}) }}
-        key={key}
+        key={_id}
         title={
           <View style={styles.row}>
             <Text style={styles.description}>{description}</Text>

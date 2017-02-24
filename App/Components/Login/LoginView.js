@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
-import { View, TextInput, Button } from 'react-native'
+import { Alert, View, TextInput, Button } from 'react-native'
 import { observable, computed } from 'mobx'
 import { observer } from 'mobx-react'
 import { Actions } from 'react-native-router-flux'
-import * as firebase from 'firebase'
 import Spinner from 'react-native-loading-spinner-overlay'
 
 import spinnerStyle from '../Styles/SpinnerStyle.js'
 import styles from './LoginView.style.js'
 
 import SelectUsersButton from './SelectUsersButton.js'
-import { registerUser } from './RegisterUser.js'
-
-import store from '../../Model/MainStore.js'
 
 @observer
 export default class LoginUserForm extends Component {
@@ -31,32 +27,42 @@ export default class LoginUserForm extends Component {
     return this.registering? 'Already Registered?' : 'Not yet registered?'
   }
 
+  registerUser (email, password) {
+    var userData = {email, password}
+
+    this.props.app.service('users').create(userData).then((result) => {
+      this.loginUser(email, password)
+    }).catch((err) => {
+      console.log(err)
+      this.loading = false
+      Alert.alert('Error', err.message)
+    })
+  }
+
+  loginUser (email, password) {
+    this.props.app.authenticate({
+      type: 'local',
+      email: email,
+      password: password
+    }).then(response => {
+      this.loading = false
+      Actions.expensesList()
+    }).catch(error => {
+      console.log(error)
+      this.loading = false
+      Alert.alert('Error', 'Please enter a valid email or password.')
+    })
+  }
+
   submit () {
     this.loading = true
     if (this.registering) {
-      registerUser(this.loginEmail, this.loginPassword, (t) => { this.loading = t })
-     } else{
-      firebase.auth()
-        .signInWithEmailAndPassword(this.loginEmail, this.loginPassword)
-        .then(res => {
-          store.userDevice.userId = res.uid
-          this.loading = false
-          Actions.usersList()
-        })
-        .catch(error => {
-          this.loading = false
-          console.log(error.toString())
-        })
+      this.registerUser(this.loginEmail, this.loginPassword)
+    } else {
+      this.loginUser(this.loginEmail, this.loginPassword)
     }
   }
 
-  /* logout() {
-   *   firebase.auth().signOut()
-   *     .catch(error => {
-   *       console.log(error);
-   *     })
-   * }
-   */
   setEmailPassword (email, password) {
     this.loginEmail = email
     this.loginPassword = password
