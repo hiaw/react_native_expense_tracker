@@ -13,6 +13,7 @@
 		"feathers-hooks": "^1.7.1",
 		"feathers-socketio": "^1.4.2",
 		"mobx": "^3.1.0",
+		"mobx-persist": "^0.2.3",
 		"mobx-react": "^4.1.0",
 		"react": "~15.4.0",
 		"react-dom": "^15.4.2",
