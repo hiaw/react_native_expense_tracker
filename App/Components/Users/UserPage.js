@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Alert, View, Button } from 'react-native'
+import { Picker, Alert, View, Button } from 'react-native'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 import Moment from 'moment'
@@ -23,7 +23,9 @@ export default class UserView extends Component {
     if (props.user) {
       this.editing = true
       this.email = props.user.email
-      this.role = props.user.role
+      if (props.user.roles) {
+        this.role = props.user.roles[0]
+      }
     }
   }
 
@@ -31,16 +33,16 @@ export default class UserView extends Component {
     this.userService.create({
       email: this.email,
       password: this.password,
-      role: this.role
+      roles: [this.role]
     }).then((res) => {
       Actions.pop()
     })
   }
 
   save () {
-    this.userService.update(this.props.user._id, {
-      email: this.amount,
-      role: this.role
+    this.userService.patch(this.props.user._id, {
+      email: this.email,
+      roles: [this.role]
     }).then((res) => {
       Actions.pop()
     })
@@ -69,8 +71,13 @@ export default class UserView extends Component {
     return (
       <View style={styles.container}>
         <FormLabel>Role</FormLabel>
-        <FormInput value={this.role}
-          onChangeText={(t) => { this.role = t }} />
+        <Picker
+          selectedValue={this.role}
+          onValueChange={(t) => { this.role = t }}>
+          <Picker.Item label="Admin" value="admin" />
+          <Picker.Item label="Manager" value="manager" />
+          <Picker.Item label="User" value="user" />
+        </Picker>
 
         <FormLabel>Email</FormLabel>
         <FormInput value={this.email}

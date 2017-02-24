@@ -33,6 +33,7 @@ export default class ExpenseView extends Component {
 
   add() {
     this.expenseService.create({
+      owner: store.userDevice.userId,
       date: Moment(this.date).valueOf(),
       description: this.description,
       amount: this.amount,
@@ -44,6 +45,7 @@ export default class ExpenseView extends Component {
 
   save () {
     this.expenseService.update(this.props.expense._id, {
+      owner: this.props.expense.owner,
       date: Moment(this.date).valueOf(),
       description: this.description,
       amount: this.amount,
