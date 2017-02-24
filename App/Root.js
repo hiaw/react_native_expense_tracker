@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { AsyncStorage } from 'react-native'
 import NavigationRouter from './Navigation/NavigationRouter.js'
 import { Actions } from 'react-native-router-flux'
-/* import * as firebase from 'firebase' */
 
 import feathers from 'feathers/client'
 import hooks from 'feathers-hooks'
@@ -30,7 +29,7 @@ export default class Root extends Component {
   componentDidMount () {
     this.app.io.on('connect', () => {
       this.app.authenticate().then(() => {
-        Actions.expense()
+        Actions.expensesList()
       }).catch(error => {
         console.log(error)
         Actions.login()
