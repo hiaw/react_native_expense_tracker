@@ -58,7 +58,7 @@ exports[`renders correctly 1`] = `
     style={undefined}
   >
     <RCTDatePicker
-      date={1488175487597}
+      date={949316400000}
       maximumDate={undefined}
       minimumDate={undefined}
       minuteInterval={undefined}

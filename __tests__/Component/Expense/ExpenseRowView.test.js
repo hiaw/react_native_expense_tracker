@@ -1,6 +1,6 @@
 import 'react-native'
 import React from 'react'
-import ExpenseView from '../../../App/Components/Expenses/ExpenseView.js'
+import ExpenseRowView from '../../../App/Components/Expenses/ExpenseRowView.js'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
@@ -13,11 +13,9 @@ let expense = {
   comment: 'Some long comment'
 }
 
-let app = { service: () => {}}
-
 it('renders correctly', () => {
   const tree = renderer.create(
-    <ExpenseView expense={expense} app={app} />
+    <ExpenseRowView expense={expense} />
   ).toJSON()
   expect(tree).toMatchSnapshot()
 })

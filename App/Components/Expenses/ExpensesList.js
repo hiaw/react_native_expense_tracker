@@ -58,7 +58,6 @@ export default class ExpensesList extends Component {
 
     this.expenseService.find(newQ)
       .then(expenses => {
-        console.log(expenses)
         this.setState({
           total: expenses.total,
           dataSource: this.state.dataSource.cloneWithRowsAndSections(generateArrayByWeekOfYear(expenses.data))
