@@ -9,6 +9,7 @@ import spinnerStyle from '../Styles/SpinnerStyle.js'
 import styles from './LoginView.style.js'
 
 import SelectUsersButton from './SelectUsersButton.js'
+import redirectAfterLogin from './RedirectAfterLogin.js'
 
 import store from '../../Model/MainStore.js'
 
@@ -47,9 +48,9 @@ export default class LoginUserForm extends Component {
       email: email,
       password: password
     }).then(res => {
-      store.userDevice.userId = res.data._id
       this.loading = false
-      Actions.expensesList()
+      store.userDevice.userId = res.data._id
+      redirectAfterLogin(res)
     }).catch(error => {
       console.log(error)
       this.loading = false
