@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, ListView, Button } from 'react-native'
+import { View, Text, ListView, Button } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import _ from 'lodash'
 
@@ -19,6 +19,7 @@ export default class ExpensesList extends Component {
       .then(expenses => {
         console.log(expenses)
         this.setState({
+          total: expenses.total,
           dataSource: this.state.dataSource.cloneWithRows(expenses.data)
         })
       })
@@ -82,6 +83,7 @@ export default class ExpensesList extends Component {
       <View style={styles.container}>
         <Button onPress={() => this.openFilter()}
           title='Filter' />
+        <Text style={styles.total}>Total: {this.state.total} records</Text>
         <ListView dataSource={this.state.dataSource}
           enableEmptySections
           renderRow={(expense) => this._renderExpense(expense)} />
