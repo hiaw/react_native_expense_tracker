@@ -34,9 +34,9 @@ export default class ExpenseView extends Component {
   add() {
     this.expenseService.create({
       owner: store.userDevice.userId,
-      date: Moment(this.date).valueOf(),
+      date: this.date,
       description: this.description,
-      amount: this.amount,
+      amount: Number(this.amount),
       comment: this.comment
     }).then((res) => {
       Actions.pop()
@@ -46,9 +46,9 @@ export default class ExpenseView extends Component {
   save () {
     this.expenseService.update(this.props.expense._id, {
       owner: this.props.expense.owner,
-      date: Moment(this.date).valueOf(),
+      date: this.date,
       description: this.description,
-      amount: this.amount,
+      amount: Number(this.amount),
       comment: this.comment
     }).then((res) => {
       Actions.pop()
@@ -85,7 +85,7 @@ export default class ExpenseView extends Component {
         />
 
         <FormLabel>Amount</FormLabel>
-        <FormInput value={this.amount}
+        <FormInput value={this.amount.toString()}
           keyboardType='numeric'
           onChangeText={(t) => {this.amount = t}}/>
 

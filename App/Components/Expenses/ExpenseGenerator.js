@@ -1,14 +1,13 @@
 import faker from 'faker'
-import Moment from 'moment'
 
 import store from '../../Model/MainStore.js'
 
 export function generateExpense () {
   return {
     owner: store.userDevice.userId,
-    date: Moment(faker.date.past()).valueOf(),
+    date: faker.date.past(),
     description: faker.company.catchPhraseDescriptor(),
-    amount: faker.finance.amount(),
+    amount: Math.round(10000 * Math.random()) / 100,
     comment: faker.lorem.sentence()
   }
 }
