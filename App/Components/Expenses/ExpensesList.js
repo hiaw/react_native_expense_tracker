@@ -24,20 +24,6 @@ function generateArrayByWeekOfYear (data) {
 
 export default class ExpensesList extends Component {
 
-  updateList (q) {
-    let decreasingDate = {$sort: {date: -1}}
-    let newQ = _.merge(q, {query: decreasingDate})
-
-    this.expenseService.find(newQ)
-      .then(expenses => {
-        console.log(expenses)
-        this.setState({
-          total: expenses.total,
-          dataSource: this.state.dataSource.cloneWithRowsAndSections(generateArrayByWeekOfYear(expenses.data))
-        })
-      })
-  }
-
   constructor (props) {
     super(props)
 
@@ -64,6 +50,19 @@ export default class ExpensesList extends Component {
     this.expenseService.on('patched', expense => {
       this.updateList()
     })
+  }
+
+  updateList (q) {
+    let decreasingDate = {$sort: {date: -1}}
+    let newQ = _.merge(q, {query: decreasingDate})
+
+    this.expenseService.find(newQ)
+      .then(expenses => {
+        this.setState({
+          total: expenses.total,
+          dataSource: this.state.dataSource.cloneWithRowsAndSections(generateArrayByWeekOfYear(expenses.data))
+        })
+      })
   }
 
   addExpense () {

@@ -7,14 +7,6 @@ import styles from './UsersList.style.js'
 
 export default class UsersList extends Component {
 
-  updateList () {
-    this.userService.find().then(users => {
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(users.data)
-      })
-    })
-  }
-
   constructor (props) {
     super(props)
 
@@ -39,6 +31,14 @@ export default class UsersList extends Component {
     })
     this.userService.on('patched', user => {
       this.updateList()
+    })
+  }
+
+  updateList () {
+    this.userService.find().then(users => {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(users.data)
+      })
     })
   }
 
