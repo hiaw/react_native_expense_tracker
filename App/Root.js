@@ -8,6 +8,8 @@ import hooks from 'feathers-hooks'
 import socketio from 'feathers-socketio/client'
 import authentication from 'feathers-authentication/client'
 
+import redirectAfterLogin from './Components/Login/RedirectAfterLogin.js'
+
 import io from 'socket.io-client'
 
 export default class Root extends Component {
@@ -28,12 +30,12 @@ export default class Root extends Component {
 
   componentDidMount () {
     this.app.io.on('connect', () => {
-      this.app.authenticate().then(() => {
-        Actions.usersList()
-      }).catch(error => {
-        console.log(error)
-        Actions.login()
-      })
+      this.app.authenticate()
+        .then(redirectAfterLogin)
+        .catch(error => {
+          console.log(error)
+          Actions.login()
+        })
     })
 
     this.app.io.on('disconnect', () => {

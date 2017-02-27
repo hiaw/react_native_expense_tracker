@@ -22,7 +22,6 @@ export default class ExpensesList extends Component {
     this.expenseService = props.app.service('expenses')
 
     this.expenseService.find().then(expenses => {
-      console.log(expenses.data)
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(expenses.data)
       })
