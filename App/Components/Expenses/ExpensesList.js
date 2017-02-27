@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, ListView, Button } from 'react-native'
 import { Actions } from 'react-native-router-flux'
+import _ from 'lodash'
 
 import { generateExpense } from './ExpenseGenerator.js'
 import ExpenseRowView from './ExpenseRowView.js'
@@ -11,7 +12,10 @@ import store from '../../Model/MainStore.js'
 export default class ExpensesList extends Component {
 
   updateList (q) {
-    this.expenseService.find(q)
+    let decreasingDate = {$sort: {date: -1}}
+    let newQ = _.merge(q, {query: decreasingDate})
+
+    this.expenseService.find(newQ)
       .then(expenses => {
         console.log(expenses)
         this.setState({
@@ -55,14 +59,15 @@ export default class ExpensesList extends Component {
     this.expenseService.create(generateExpense())
   }
 
+  generateQuery (minAmount, maxAmount) {
+    let q = {}
+    if (minAmount) q = _.merge(q, { amount: { $gte: minAmount } })
+    if (maxAmount) q = _.merge(q, { amount: { $lte: maxAmount } })
+    return { query: q }
+  }
+
   openFilter () {
-    let q = {
-      query: {
-        amount: {
-          $lte: 50
-        }
-      }
-    }
+    let q = this.generateQuery(null, 70)
     this.updateList(q)
   }
 
