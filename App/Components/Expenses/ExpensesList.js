@@ -10,12 +10,15 @@ import store from '../../Model/MainStore.js'
 
 export default class ExpensesList extends Component {
 
-  updateList () {
-    this.expenseService.find().then(expenses => {
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(expenses.data)
+  updateList (q) {
+    console.log(q)
+    this.expenseService.find(q)
+      .then(expenses => {
+        console.log(expenses)
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(expenses.data)
+        })
       })
-    })
   }
 
   constructor (props) {
@@ -53,6 +56,15 @@ export default class ExpensesList extends Component {
     this.expenseService.create(generateExpense())
   }
 
+  openFilter () {
+    let q = {
+      query: {
+        $limit: 2
+      }
+    }
+    this.updateList(q)
+  }
+
   _renderExpense (expense) {
     return (
       <ExpenseRowView expense={expense} />
@@ -62,6 +74,8 @@ export default class ExpensesList extends Component {
   render () {
     return (
       <View style={styles.container}>
+        <Button onPress={() => this.openFilter()}
+          title='Filter' />
         <ListView dataSource={this.state.dataSource}
           enableEmptySections
           renderRow={(expense) => this._renderExpense(expense)} />
