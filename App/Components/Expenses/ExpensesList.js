@@ -1,13 +1,26 @@
 import React, { Component } from 'react'
 import { View, Text, ListView, Button } from 'react-native'
 import { Actions } from 'react-native-router-flux'
+import { ListItem } from 'react-native-elements'
 import _ from 'lodash'
+import Moment from 'moment'
 
 import { generateExpense } from './ExpenseGenerator.js'
 import ExpenseRowView from './ExpenseRowView.js'
 
 import styles from './ExpensesList.style.js'
 import store from '../../Model/MainStore.js'
+
+function generateArrayByWeekOfYear (data) {
+  let newData = []
+  for (var expense of data) {
+    let weekInYear = Moment(expense.date).isoWeek()
+    if (!newData[weekInYear]) newData[weekInYear] = []
+    newData[weekInYear].push(expense)
+  }
+
+  return newData
+}
 
 export default class ExpensesList extends Component {
 
@@ -20,7 +33,7 @@ export default class ExpensesList extends Component {
         console.log(expenses)
         this.setState({
           total: expenses.total,
-          dataSource: this.state.dataSource.cloneWithRows(expenses.data)
+          dataSource: this.state.dataSource.cloneWithRowsAndSections(generateArrayByWeekOfYear(expenses.data))
         })
       })
   }
@@ -30,7 +43,8 @@ export default class ExpensesList extends Component {
 
     this.state = {
       dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2
+        rowHasChanged: (row1, row2) => row1 !== row2,
+        sectionHeaderHasChanged: (s1, s2) => s1 !== s2
       })
     }
 
@@ -78,6 +92,13 @@ export default class ExpensesList extends Component {
     )
   }
 
+  _renderSectionHeader (sectionData, sectionID) {
+    return (
+      <ListItem key={sectionID} title={`Week ${sectionID}`}
+        containerStyle={{backgroundColor: 'lightblue'}} />
+    )
+  }
+
   render () {
     return (
       <View style={styles.container}>
@@ -86,6 +107,7 @@ export default class ExpensesList extends Component {
         <Text style={styles.total}>Total: {this.state.total} records</Text>
         <ListView dataSource={this.state.dataSource}
           enableEmptySections
+          renderSectionHeader={this._renderSectionHeader}
           renderRow={(expense) => this._renderExpense(expense)} />
 
         <Button onPress={() => this.addExpense()}
