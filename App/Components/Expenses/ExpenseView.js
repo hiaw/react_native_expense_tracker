@@ -24,7 +24,7 @@ export default class ExpenseView extends Component {
 
     if (props.expense) {
       this.editing = true
-      this.date = props.expense.date
+      this.date = Moment(props.expense.date).toDate()
       this.description = props.expense.description
       this.amount = props.expense.amount
       this.comment = props.expense.comment
@@ -36,7 +36,7 @@ export default class ExpenseView extends Component {
       owner: store.userDevice.userId,
       date: this.date,
       description: this.description,
-      amount: this.amount,
+      amount: Number(this.amount),
       comment: this.comment
     }).then((res) => {
       Actions.pop()
@@ -48,7 +48,7 @@ export default class ExpenseView extends Component {
       owner: this.props.expense.owner,
       date: this.date,
       description: this.description,
-      amount: this.amount,
+      amount: Number(this.amount),
       comment: this.comment
     }).then((res) => {
       Actions.pop()
@@ -85,7 +85,7 @@ export default class ExpenseView extends Component {
         />
 
         <FormLabel>Amount</FormLabel>
-        <FormInput value={this.amount}
+        <FormInput value={this.amount.toString()}
           keyboardType='numeric'
           onChangeText={(t) => {this.amount = t}}/>
 

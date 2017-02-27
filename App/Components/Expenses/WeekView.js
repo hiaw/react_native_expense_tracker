@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, ScrollView, Button } from 'react-native'
+import { Alert, View, Text, ScrollView, Button } from 'react-native'
 
 import ExpenseRowView from './ExpenseRowView.js'
 
@@ -8,7 +8,7 @@ import styles from './ExpensesList.style.js'
 export default class WeekView extends Component {
 
   print () {
-    console.log('printing ')
+    Alert.alert('Printing')
   }
 
   _renderExpense (expense) {
