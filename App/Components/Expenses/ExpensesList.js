@@ -81,9 +81,13 @@ export default class ExpensesList extends Component {
     return { query: q }
   }
 
-  openFilter () {
-    let q = this.generateQuery(null, 70)
+  applyFilter (minAmount, maxAmount) {
+    let q = this.generateQuery(Number(minAmount), Number(maxAmount))
     this.updateList(q)
+  }
+
+  openFilter () {
+    Actions.filter({applyFilter: this.applyFilter.bind(this)})
   }
 
   _renderExpense (expense) {
