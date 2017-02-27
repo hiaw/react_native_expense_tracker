@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, ListView, Text, Button } from 'react-native'
+import { View, ListView, Button } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 
 import { generateExpense } from './ExpenseGenerator.js'
@@ -9,6 +9,14 @@ import styles from './ExpensesList.style.js'
 import store from '../../Model/MainStore.js'
 
 export default class ExpensesList extends Component {
+
+  updateList () {
+    this.expenseService.find().then(expenses => {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(expenses.data)
+      })
+    })
+  }
 
   constructor (props) {
     super(props)
@@ -21,10 +29,19 @@ export default class ExpensesList extends Component {
 
     this.expenseService = props.app.service('expenses')
 
-    this.expenseService.find().then(expenses => {
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(expenses.data)
-      })
+    this.updateList()
+
+    this.expenseService.on('created', expense => {
+      this.updateList()
+    })
+    this.expenseService.on('removed', expense => {
+      this.updateList()
+    })
+    this.expenseService.on('updated', expense => {
+      this.updateList()
+    })
+    this.expenseService.on('patched', expense => {
+      this.updateList()
     })
   }
 

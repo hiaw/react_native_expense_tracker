@@ -52,9 +52,10 @@ export default class LoginUserForm extends Component {
       store.userDevice.userId = res.data._id
       redirectAfterLogin(res)
     }).catch(error => {
-      console.log(error)
       this.loading = false
-      Alert.alert('Error', 'Please enter a valid email or password.')
+      setTimeout(function(){
+        Alert.alert('Error', 'Please enter a valid email or password.')
+      }, 100);
     })
   }
 

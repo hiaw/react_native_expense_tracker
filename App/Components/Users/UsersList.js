@@ -7,6 +7,14 @@ import styles from './UsersList.style.js'
 
 export default class UsersList extends Component {
 
+  updateList () {
+    this.userService.find().then(users => {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(users.data)
+      })
+    })
+  }
+
   constructor (props) {
     super(props)
 
@@ -18,11 +26,19 @@ export default class UsersList extends Component {
 
     this.userService = props.app.service('users')
 
-    this.userService.find().then(users => {
-      console.log(users.data)
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(users.data)
-      })
+    this.updateList()
+
+    this.userService.on('created', user => {
+      this.updateList()
+    })
+    this.userService.on('removed', user => {
+      this.updateList()
+    })
+    this.userService.on('updated', user => {
+      this.updateList()
+    })
+    this.userService.on('patched', user => {
+      this.updateList()
     })
   }
 
