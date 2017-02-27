@@ -24,7 +24,7 @@ export default class ExpenseView extends Component {
 
     if (props.expense) {
       this.editing = true
-      this.date = Moment(props.expense.date).toDate()
+      this.date = props.expense.date
       this.description = props.expense.description
       this.amount = props.expense.amount
       this.comment = props.expense.comment
@@ -34,7 +34,7 @@ export default class ExpenseView extends Component {
   add() {
     this.expenseService.create({
       owner: store.userDevice.userId,
-      date: Moment(this.date).valueOf(),
+      date: this.date,
       description: this.description,
       amount: this.amount,
       comment: this.comment
@@ -46,7 +46,7 @@ export default class ExpenseView extends Component {
   save () {
     this.expenseService.update(this.props.expense._id, {
       owner: this.props.expense.owner,
-      date: Moment(this.date).valueOf(),
+      date: this.date,
       description: this.description,
       amount: this.amount,
       comment: this.comment
