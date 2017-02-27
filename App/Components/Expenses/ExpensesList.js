@@ -95,25 +95,30 @@ export default class ExpensesList extends Component {
   _renderSectionHeader (sectionData, sectionID) {
     return (
       <ListItem key={sectionID} title={`Week ${sectionID}`}
-        containerStyle={{backgroundColor: 'lightblue'}} />
+        onPress={() => { Actions.weekView({data: sectionData, week: sectionID}) }}
+        containerStyle={{backgroundColor: 'beige'}} />
     )
   }
 
   render () {
     return (
       <View style={styles.container}>
-        <Button onPress={() => this.openFilter()}
-          title='Filter' />
-        <Text style={styles.total}>Total: {this.state.total} records</Text>
+        <View style={{backgroundColor: 'lightblue'}}>
+          <Button onPress={() => this.openFilter()}
+            title='Filter' />
+          <Text style={styles.total}>Total: {this.state.total} records</Text>
+        </View>
         <ListView dataSource={this.state.dataSource}
           enableEmptySections
           renderSectionHeader={this._renderSectionHeader}
           renderRow={(expense) => this._renderExpense(expense)} />
 
-        <Button onPress={() => this.addExpense()}
-          title='Add Expense' />
-        <Button onPress={() => this.generateExpensesForUser()}
-          title='Generate Expenses For User' />
+        <View style={{backgroundColor: 'lightblue'}}>
+          <Button onPress={() => this.addExpense()}
+            title='Add Expense' />
+          <Button onPress={() => this.generateExpensesForUser()}
+            title='Generate Expenses For User' />
+        </View>
       </View>
     )
   }

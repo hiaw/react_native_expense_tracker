@@ -54,8 +54,10 @@ export default class UsersList extends Component {
           enableEmptySections
           renderRow={(user) => this._renderUser(user)} />
 
-        <Button onPress={() => { Actions.user() }}
-          title='Add User' />
+        <View style={{backgroundColor: 'lightblue'}}>
+          <Button onPress={() => { Actions.user() }}
+            title='Add User' />
+        </View>
       </View>
     )
   }
