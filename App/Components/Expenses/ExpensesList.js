@@ -11,7 +11,6 @@ import store from '../../Model/MainStore.js'
 export default class ExpensesList extends Component {
 
   updateList (q) {
-    console.log(q)
     this.expenseService.find(q)
       .then(expenses => {
         console.log(expenses)
@@ -59,7 +58,9 @@ export default class ExpensesList extends Component {
   openFilter () {
     let q = {
       query: {
-        $limit: 2
+        amount: {
+          $lte: 50
+        }
       }
     }
     this.updateList(q)
