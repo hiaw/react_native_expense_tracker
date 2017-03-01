@@ -4,7 +4,7 @@
 
 This React Native app track expenses.
 
-It uses REST api to communicate with Feathers.js server.
+It uses REST api to communicate with Feathers.js server. The corresponding repo is [here](https://github.com/hiaw/expense_tracker_feathersjs_server)
 
 ## Prerequisite
 `React Native`, `Xcode`, `node`, `yarn` installed
@@ -22,18 +22,18 @@ jest
 
 ## Test Result
 ```
->>> jest 
- PASS  __tests__/Component/Login/LoginView.test.js
- PASS  __tests__/Component/Users/UserPage.test.js
- PASS  __tests__/Component/Expense/FilterView.test.js
- PASS  __tests__/Component/Expense/ExpenseView.test.js
- PASS  __tests__/Component/Expense/WeekView.test.js
- PASS  __tests__/Component/Expense/ExpenseRowView.test.js
- PASS  __tests__/Component/Login/SelectUsersButton.test.js
+  >>> jest 
+  PASS  __tests__/Component/Login/LoginView.test.js
+  PASS  __tests__/Component/Users/UserPage.test.js
+  PASS  __tests__/Component/Expense/FilterView.test.js
+  PASS  __tests__/Component/Expense/ExpenseView.test.js
+  PASS  __tests__/Component/Expense/WeekView.test.js
+  PASS  __tests__/Component/Expense/ExpenseRowView.test.js
+  PASS  __tests__/Component/Login/SelectUsersButton.test.js
 
-Test Suites: 7 passed, 7 total
-Tests:       7 passed, 7 total
-Snapshots:   7 passed, 7 total
-Time:        3.349s
-Ran all test suites.
+  Test Suites: 7 passed, 7 total
+  Tests:       7 passed, 7 total
+  Snapshots:   7 passed, 7 total
+  Time:        3.349s
+  Ran all test suites.
 ```
